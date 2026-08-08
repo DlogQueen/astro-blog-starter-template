@@ -1,0 +1,112 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+
+type Props = {
+	title: string;
+	description: string;
+	pubDate: Date;
+	updatedDate?: Date;
+	category: 'event' | 'restock' | 'news';
+	eventDate?: string;
+	eventLocation?: string;
+};
+
+const { title, description, pubDate, updatedDate, category, eventDate, eventLocation } = Astro.props;
+
+const categoryLabel: Record<Props['category'], string> = {
+	event: 'Event',
+	restock: 'Restock',
+	news: 'News',
+};
+---
+
+<html lang="en">
+	<head>
+		<BaseHead title={`${title} — The Glitzy Farmhouse`} description={description} />
+	</head>
+
+	<body>
+		<Header />
+		<main>
+			<article class="wrap prose-wrap">
+				<div class="title">
+					<span class:list={['tag', { 'tag-terracotta': category === 'event', 'tag-gold': category === 'restock' }]}>
+						{categoryLabel[category]}
+					</span>
+					<h1>{title}</h1>
+					<div class="date">
+						<FormattedDate date={pubDate} />
+						{
+							updatedDate && (
+								<div class="last-updated-on">Last updated on <FormattedDate date={updatedDate} /></div>
+							)
+						}
+					</div>
+					{
+						(eventDate || eventLocation) && (
+							<div class="event-box">
+								{eventDate && (
+									<p>
+										<strong>When:</strong> {eventDate}
+									</p>
+								)}
+								{eventLocation && (
+									<p>
+										<strong>Where:</strong> {eventLocation}
+									</p>
+								)}
+							</div>
+						)
+					}
+					<hr />
+				</div>
+				<div class="prose">
+					<slot />
+				</div>
+				<p class="back-link"><a href="/updates">&larr; Back to Updates &amp; Events</a></p>
+			</article>
+		</main>
+		<Footer />
+	</body>
+</html>
+<style>
+	main {
+		padding: 3em 0 4em 0;
+	}
+	.prose-wrap {
+		max-width: 720px;
+	}
+	.title {
+		margin-bottom: 2em;
+	}
+	.title h1 {
+		margin: 0.4em 0 0.3em 0;
+	}
+	.date {
+		color: rgb(var(--ink-soft));
+		font-size: 0.95em;
+	}
+	.last-updated-on {
+		font-style: italic;
+	}
+	.event-box {
+		margin-top: 1em;
+		padding: 1em 1.25em;
+		background: var(--sage-light);
+		border-radius: 12px;
+	}
+	.event-box p {
+		margin: 0.2em 0;
+		color: rgb(var(--ink));
+	}
+	.back-link {
+		margin-top: 2.5em;
+	}
+	.back-link a {
+		font-weight: 700;
+		text-decoration: none;
+	}
+</style>

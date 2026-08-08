@@ -2,49 +2,412 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import FormattedDate from '../components/FormattedDate.astro';
+import { getCollection } from 'astro:content';
+import {
+	SITE_TITLE,
+	SITE_DESCRIPTION,
+	OWNER_NAME,
+	LOCATION,
+	INSTAGRAM_URL,
+	INSTAGRAM_HANDLE,
+	CONTACT_EMAIL,
+} from '../consts';
+
+const latestPosts = (await getCollection('updates'))
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, 3);
+
+const categoryLabel: Record<string, string> = {
+	event: 'Event',
+	restock: 'Restock',
+	news: 'News',
+};
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<BaseHead title={`${SITE_TITLE} | Handmade Wreaths & Custom Decor in Dothan, AL`} description={SITE_DESCRIPTION} />
 	</head>
 	<body>
 		<Header />
 		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This
-				template serves as a lightweight, minimally-styled starting point for anyone looking to build
-				a personal website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to <a href="https://docs.astro.build/"
-					>read the docs
-				</a> or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out <a
-					href="https://github.com/Charca/astro-blog-template"
-					>astro-blog-template
-				</a> by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
+			<!-- Hero -->
+			<section class="hero">
+				<div class="wrap hero-inner">
+					<div class="hero-copy">
+						<span class="eyebrow">Handmade in {LOCATION}</span>
+						<h1>Custom wreaths &amp; seasonal charm, made by hand.</h1>
+						<p class="lede">
+							{OWNER_NAME} designs and builds every wreath one at a time — your colors, your
+							season, your front door. Small-batch, local, and made to order.
+						</p>
+						<div class="hero-actions">
+							<a class="btn btn-primary" href="#contact">Request a Custom Wreath</a>
+							<a class="btn btn-outline" href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
+								Follow {INSTAGRAM_HANDLE}
+							</a>
+						</div>
+					</div>
+					<div class="hero-art" aria-hidden="true">
+						<svg viewBox="0 0 320 320" class="wreath-svg">
+							<circle cx="160" cy="160" r="118" fill="none" stroke="#bf5f39" stroke-width="7" />
+							<circle cx="160" cy="160" r="118" fill="none" stroke="#7c8863" stroke-width="2" stroke-dasharray="1 17" stroke-linecap="round" />
+							<g stroke="#7c8863" stroke-width="6" stroke-linecap="round" fill="none">
+								<path d="M160 26c14 20 14 34 0 54" />
+								<path d="M294 160c-20 14-34 14-54 0" />
+								<path d="M160 294c-14-20-14-34 0-54" />
+								<path d="M26 160c20-14 34-14 54 0" />
+								<path d="M254 66c-6 24-16 34-38 40" />
+								<path d="M254 254c-6-24-16-34-38-40" />
+								<path d="M66 254c6-24 16-34 38-40" />
+								<path d="M66 66c6 24 16 34 38 40" />
+							</g>
+							<circle cx="160" cy="160" r="10" fill="#c79a49" />
+						</svg>
+					</div>
+				</div>
+			</section>
+
+			<!-- About teaser -->
+			<section class="section">
+				<div class="wrap about-teaser">
+					<div>
+						<span class="eyebrow">The maker behind the wreaths</span>
+						<h2>Hi, I'm {OWNER_NAME}.</h2>
+						<p>
+							The Glitzy Farmhouse started as a love for creating something beautiful for the
+							front door — now it's grown into a full-blown passion for handmade seasonal decor
+							and custom wreath design, built for neighbors right here in the Wiregrass.
+						</p>
+						<p>
+							Every piece is designed and assembled by hand, from choosing the ribbon and florals
+							to the final fluff. If you can dream up a color scheme, I can probably build it.
+						</p>
+						<a class="btn btn-outline" href="/about">More about The Glitzy Farmhouse &rarr;</a>
+					</div>
+					<div class="badges">
+						<div class="card badge-card">
+							<div class="icon-badge">
+								<svg viewBox="0 0 24 24" fill="none"><path d="M12 3v18M3 12h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+							</div>
+							<h4>Made to Order</h4>
+							<p>Every wreath is custom-built for you — no mass production, no shortcuts.</p>
+						</div>
+						<div class="card badge-card">
+							<div class="icon-badge">
+								<svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-7.5-4.9-10-9.3C0.4 8.6 2 5 5.6 5c2 0 3.4 1 4.4 2.4C11 6 12.4 5 14.4 5 18 5 19.6 8.6 18 11.7 15.5 16.1 12 21 12 21z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" /></svg>
+							</div>
+							<h4>Small &amp; Local</h4>
+							<p>A one-woman shop based right here in Dothan, Alabama.</p>
+						</div>
+						<div class="card badge-card">
+							<div class="icon-badge">
+								<svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.6 6.6L21 9.2l-5 4.6L17.4 21 12 17.3 6.6 21 8 13.8 3 9.2l6.4-.6L12 2z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" /></svg>
+							</div>
+							<h4>Community First</h4>
+							<p>Proud contributor to local charity raffles &amp; hero fundraisers.</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- What I make -->
+			<section class="section section-alt">
+				<div class="wrap">
+					<div class="section-head center">
+						<span class="eyebrow">What I make</span>
+						<h2>Handmade for every season</h2>
+					</div>
+					<div class="grid grid-4">
+						<div class="card product-card">
+							<div class="icon-badge">
+								<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8" /></svg>
+							</div>
+							<h4>Custom Designer Wreaths</h4>
+							<p>Front-door statement pieces, built around your colors and style.</p>
+						</div>
+						<div class="card product-card">
+							<div class="icon-badge">
+								<svg viewBox="0 0 24 24" fill="none"><path d="M12 3c4 3 6 6.5 6 10a6 6 0 01-12 0c0-3.5 2-7 6-10z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" /></svg>
+							</div>
+							<h4>Seasonal Door &amp; Home Décor</h4>
+							<p>Swags, mantel pieces, and accents for every holiday and season.</p>
+						</div>
+						<div class="card product-card">
+							<div class="icon-badge">
+								<svg viewBox="0 0 24 24" fill="none"><path d="M6 4c4 0 4 16 12 16M6 20c4 0 4-16 12-16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+							</div>
+							<h4>Ribbon &amp; Color Customization</h4>
+							<p>Tell me your palette, monogram, or theme — I'll design around it.</p>
+						</div>
+						<div class="card product-card">
+							<div class="icon-badge">
+								<svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-7.5-4.9-10-9.3C0.4 8.6 2 5 5.6 5c2 0 3.4 1 4.4 2.4C11 6 12.4 5 14.4 5 18 5 19.6 8.6 18 11.7 15.5 16.1 12 21 12 21z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" /></svg>
+							</div>
+							<h4>Charity &amp; Raffle Pieces</h4>
+							<p>Donated wreaths for local fundraisers, giveaways, and hero events.</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Community -->
+			<section class="section section-dark">
+				<div class="wrap community-inner">
+					<div class="section-head">
+						<span class="eyebrow">Giving back</span>
+						<h2>Proud to support Dothan's local heroes</h2>
+						<p>
+							The Glitzy Farmhouse regularly donates handmade pieces to local charity raffles and
+							fundraisers — including "Help a Hero" giveaways benefiting veterans and first
+							responders, in partnership with area businesses like Sport Clips. Small-town
+							support, one wreath at a time.
+						</p>
+						<a class="btn btn-outline-light" href="/updates">See upcoming events &rarr;</a>
+					</div>
+				</div>
+			</section>
+
+			<!-- Instagram CTA -->
+			<section class="section instagram-cta">
+				<div class="wrap insta-inner">
+					<div class="insta-swatches" aria-hidden="true">
+						<span style="background:#bf5f39"></span>
+						<span style="background:#c79a49"></span>
+						<span style="background:#7c8863"></span>
+						<span style="background:#e7ebdd"></span>
+						<span style="background:#f2e6d3"></span>
+						<span style="background:#9c4a29"></span>
+					</div>
+					<div>
+						<span class="eyebrow">Follow along</span>
+						<h2>See the latest designs on Instagram</h2>
+						<p>New wreaths, restocks, and behind-the-scenes are posted first on Instagram.</p>
+						<a class="btn btn-primary" href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
+							Follow {INSTAGRAM_HANDLE}
+						</a>
+					</div>
+				</div>
+			</section>
+
+			<!-- Latest updates -->
+			{
+				latestPosts.length > 0 && (
+					<section class="section">
+						<div class="wrap">
+							<div class="section-head center">
+								<span class="eyebrow">What's new</span>
+								<h2>Latest Updates &amp; Events</h2>
+							</div>
+							<div class="grid grid-3">
+								{latestPosts.map((post) => (
+									<a class="card update-card" href={`/updates/${post.id}/`}>
+										<span
+											class:list={[
+												'tag',
+												{
+													'tag-terracotta': post.data.category === 'event',
+													'tag-gold': post.data.category === 'restock',
+												},
+											]}
+										>
+											{categoryLabel[post.data.category]}
+										</span>
+										<h4>{post.data.title}</h4>
+										<p class="date">
+											<FormattedDate date={post.data.pubDate} />
+										</p>
+										<p>{post.data.description}</p>
+									</a>
+								))}
+							</div>
+							<p class="see-all"><a href="/updates">See all updates &amp; events &rarr;</a></p>
+						</div>
+					</section>
+				)
+			}
+
+			<!-- Contact -->
+			<section class="section section-alt" id="contact">
+				<div class="wrap contact-inner">
+					<div class="section-head">
+						<span class="eyebrow">Let's create something</span>
+						<h2>Ready to order a custom piece?</h2>
+						<p>
+							The fastest way to reach me is Instagram — send a DM with your idea, colors, and
+							timeline, and I'll get back to you with details and pricing.
+							{CONTACT_EMAIL && <> You can also email me at <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</>}
+						</p>
+					</div>
+					<a class="btn btn-primary btn-large" href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
+						Message on Instagram
+					</a>
+				</div>
+			</section>
 		</main>
 		<Footer />
 	</body>
 </html>
+<style>
+	.hero {
+		background: linear-gradient(180deg, var(--cream-deep), var(--cream));
+		padding: 4.5em 0;
+	}
+	.hero-inner {
+		display: flex;
+		align-items: center;
+		gap: 3em;
+	}
+	.hero-copy {
+		flex: 1.1;
+	}
+	.hero-copy h1 {
+		margin-top: 0.2em;
+	}
+	.lede {
+		font-size: 1.15em;
+		max-width: 46ch;
+	}
+	.hero-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1em;
+		margin-top: 1.5em;
+	}
+	.hero-art {
+		flex: 1;
+		display: flex;
+		justify-content: center;
+	}
+	.wreath-svg {
+		width: 100%;
+		max-width: 320px;
+	}
+
+	.about-teaser {
+		display: grid;
+		grid-template-columns: 1.1fr 1fr;
+		gap: 3em;
+		align-items: start;
+	}
+	.badges {
+		display: grid;
+		gap: 1.25em;
+	}
+	.badge-card h4 {
+		margin-top: 0;
+	}
+	.badge-card p {
+		margin-bottom: 0;
+	}
+
+	.product-card {
+		text-align: left;
+	}
+	.product-card p {
+		margin-bottom: 0;
+	}
+
+	.community-inner {
+		max-width: 720px;
+	}
+	.community-inner .section-head {
+		max-width: none;
+		margin-bottom: 0;
+	}
+
+	.insta-inner {
+		display: flex;
+		align-items: center;
+		gap: 3em;
+	}
+	.insta-swatches {
+		flex: 1;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 0.75em;
+		max-width: 320px;
+	}
+	.insta-swatches span {
+		display: block;
+		aspect-ratio: 1;
+		border-radius: 14px;
+	}
+	.insta-inner > div:last-child {
+		flex: 1.1;
+	}
+	.insta-inner p {
+		max-width: 40ch;
+	}
+
+	.update-card {
+		display: block;
+		text-decoration: none;
+		color: rgb(var(--ink));
+		transition:
+			transform 0.15s ease,
+			box-shadow 0.15s ease;
+	}
+	.update-card:hover {
+		transform: translateY(-3px);
+	}
+	.update-card h4 {
+		margin: 0.6em 0 0.2em 0;
+	}
+	.update-card .date {
+		color: rgb(var(--ink-soft));
+		font-size: 0.9em;
+		margin: 0 0 0.6em 0;
+	}
+	.update-card p:last-child {
+		margin-bottom: 0;
+	}
+	.see-all {
+		text-align: center;
+		margin: 2.5em 0 0 0;
+	}
+	.see-all a {
+		font-weight: 800;
+		text-decoration: none;
+	}
+
+	.contact-inner {
+		text-align: center;
+	}
+	.contact-inner .section-head {
+		margin-left: auto;
+		margin-right: auto;
+		text-align: center;
+	}
+	.btn-large {
+		font-size: 1.1em;
+		padding: 1em 2.2em;
+	}
+
+	@media (max-width: 900px) {
+		.hero-inner {
+			flex-direction: column-reverse;
+			text-align: center;
+		}
+		.hero-actions {
+			justify-content: center;
+		}
+		.lede {
+			margin-left: auto;
+			margin-right: auto;
+		}
+		.about-teaser {
+			grid-template-columns: 1fr;
+		}
+		.insta-inner {
+			flex-direction: column;
+			text-align: center;
+		}
+		.insta-inner p {
+			margin-left: auto;
+			margin-right: auto;
+		}
+	}
+</style>

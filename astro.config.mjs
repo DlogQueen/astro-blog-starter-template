@@ -7,6 +7,8 @@ import cloudflare from "@astrojs/cloudflare";
 
 // https://astro.build/config
 export default defineConfig({
+	// TODO: update to the real production domain once one is chosen/connected
+	// (affects canonical URLs, the sitemap, and the RSS feed).
 	site: "https://example.com",
 	integrations: [mdx(), sitemap()],
 	adapter: cloudflare({
