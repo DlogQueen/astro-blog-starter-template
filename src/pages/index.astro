@@ -7,6 +7,7 @@ import { getCollection } from 'astro:content';
 import {
 	SITE_TITLE,
 	SITE_DESCRIPTION,
+	BUSINESS_NAME,
 	OWNER_NAME,
 	LOCATION,
 	INSTAGRAM_URL,
@@ -50,22 +51,8 @@ const categoryLabel: Record<string, string> = {
 							</a>
 						</div>
 					</div>
-					<div class="hero-art" aria-hidden="true">
-						<svg viewBox="0 0 320 320" class="wreath-svg">
-							<circle cx="160" cy="160" r="118" fill="none" stroke="#bf5f39" stroke-width="7" />
-							<circle cx="160" cy="160" r="118" fill="none" stroke="#7c8863" stroke-width="2" stroke-dasharray="1 17" stroke-linecap="round" />
-							<g stroke="#7c8863" stroke-width="6" stroke-linecap="round" fill="none">
-								<path d="M160 26c14 20 14 34 0 54" />
-								<path d="M294 160c-20 14-34 14-54 0" />
-								<path d="M160 294c-14-20-14-34 0-54" />
-								<path d="M26 160c20-14 34-14 54 0" />
-								<path d="M254 66c-6 24-16 34-38 40" />
-								<path d="M254 254c-6-24-16-34-38-40" />
-								<path d="M66 254c6-24 16-34 38-40" />
-								<path d="M66 66c6 24 16 34 38 40" />
-							</g>
-							<circle cx="160" cy="160" r="10" fill="#c79a49" />
-						</svg>
+					<div class="hero-art">
+						<img src="/logo.jpg" alt={`${BUSINESS_NAME} logo`} class="hero-logo" width="1000" height="667" />
 					</div>
 				</div>
 			</section>
@@ -281,9 +268,11 @@ const categoryLabel: Record<string, string> = {
 		display: flex;
 		justify-content: center;
 	}
-	.wreath-svg {
+	.hero-logo {
 		width: 100%;
-		max-width: 320px;
+		max-width: 420px;
+		border-radius: 18px;
+		box-shadow: var(--box-shadow);
 	}
 
 	.about-teaser {

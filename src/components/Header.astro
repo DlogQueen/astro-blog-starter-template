@@ -6,18 +6,7 @@ import { BUSINESS_NAME, INSTAGRAM_URL, INSTAGRAM_HANDLE } from '../consts';
 <header>
 	<nav class="wrap">
 		<a href="/" class="brand">
-			<svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true">
-				<circle cx="24" cy="24" r="16" fill="none" stroke="currentColor" stroke-width="2.5" />
-				<path
-					d="M24 8c2 3 2 5 0 7M40 24c-3 2-5 2-7 0M24 40c-2-3-2-5 0-7M8 24c3-2 5-2 7 0"
-					stroke="currentColor"
-					stroke-width="2.5"
-					fill="none"
-					stroke-linecap="round"
-				/>
-				<circle cx="24" cy="24" r="3" fill="currentColor" />
-			</svg>
-			<span class="brand-name">The <em class="script">Glitzy</em> Farmhouse</span>
+			<img src="/logo-header.png" alt={BUSINESS_NAME} class="brand-logo" width="260" height="173" />
 		</a>
 		<div class="internal-links">
 			<HeaderLink href="/">Home</HeaderLink>
@@ -53,32 +42,19 @@ import { BUSINESS_NAME, INSTAGRAM_URL, INSTAGRAM_HANDLE } from '../consts';
 		justify-content: space-between;
 		gap: 1em;
 		flex-wrap: wrap;
-		padding: 0.85em 0;
+		padding: 0.5em 0;
 	}
 	.brand {
 		display: flex;
 		align-items: center;
-		gap: 0.5em;
 		text-decoration: none;
 		color: rgb(var(--ink));
 	}
-	.brand-mark {
-		width: 34px;
-		height: 34px;
-		color: var(--terracotta);
+	.brand-logo {
+		height: 64px;
+		width: auto;
 		flex-shrink: 0;
-	}
-	.brand-name {
-		font-family: 'Playfair Display', serif;
-		font-weight: 700;
-		font-size: 1.15em;
-		white-space: nowrap;
-	}
-	.brand-name em {
-		font-style: normal;
-		color: var(--terracotta-dark);
-		font-size: 1.35em;
-		vertical-align: -0.08em;
+		border-radius: 6px;
 	}
 	.internal-links {
 		display: flex;
@@ -103,8 +79,8 @@ import { BUSINESS_NAME, INSTAGRAM_URL, INSTAGRAM_HANDLE } from '../consts';
 		color: var(--terracotta);
 	}
 	@media (max-width: 640px) {
-		.brand-name {
-			font-size: 1em;
+		.brand-logo {
+			height: 50px;
 		}
 		.internal-links :global(a) {
 			padding: 0.5em 0.5em;
