@@ -1,0 +1,111 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('updates')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+const categoryLabel: Record<string, string> = {
+	event: 'Event',
+	restock: 'Restock',
+	news: 'News',
+};
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead
+			title="Updates & Events — The Glitzy Farmhouse"
+			description="Market dates, charity giveaways, restocks, and news from The Glitzy Farmhouse in Dothan, Alabama."
+		/>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section class="section">
+				<div class="wrap">
+					<div class="section-head">
+						<span class="eyebrow">Stay in the loop</span>
+						<h1>Updates &amp; Events</h1>
+						<p>Market dates, charity giveaways, restocks, and news from around the farmhouse.</p>
+					</div>
+					<ul class="grid grid-3">
+						{
+							posts.map((post) => (
+								<li>
+									<a class="post-card" href={`/updates/${post.id}/`}>
+										<span
+											class:list={[
+												'tag',
+												{
+													'tag-terracotta': post.data.category === 'event',
+													'tag-gold': post.data.category === 'restock',
+												},
+											]}
+										>
+											{categoryLabel[post.data.category]}
+										</span>
+										<h3>{post.data.title}</h3>
+										<p class="date">
+											<FormattedDate date={post.data.pubDate} />
+										</p>
+										<p class="excerpt">{post.data.description}</p>
+										<span class="read-more">Read more &rarr;</span>
+									</a>
+								</li>
+							))
+						}
+					</ul>
+				</div>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
+<style>
+	ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	.post-card {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		background: var(--ivory);
+		border: 1px solid var(--border);
+		border-radius: 16px;
+		padding: 1.75em;
+		text-decoration: none;
+		color: rgb(var(--ink));
+		box-shadow: var(--box-shadow);
+		transition:
+			transform 0.15s ease,
+			box-shadow 0.15s ease;
+	}
+	.post-card:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 10px 28px rgba(58, 46, 38, 0.14);
+	}
+	.post-card h3 {
+		margin: 0.6em 0 0.2em 0;
+	}
+	.date {
+		color: rgb(var(--ink-soft));
+		font-size: 0.9em;
+		margin: 0 0 0.6em 0;
+	}
+	.excerpt {
+		flex-grow: 1;
+		margin: 0 0 1em 0;
+	}
+	.read-more {
+		font-weight: 800;
+		color: var(--terracotta-dark);
+	}
+</style>
